@@ -344,3 +344,22 @@ create table `ER-3`.User_Reviews_TV_Series
         foreign key (UserName) references `ER-3`.User (UserName)
             on update cascade on delete cascade
 );
+                                                                                                          
+create table Movie_Genre
+(
+    Movie_ID   int          not null,
+    Genre_Name varchar(100) not null,
+    primary key (Movie_ID, Genre_Name),
+    constraint Moive_Genre_Movie_ID_fk
+        foreign key (Movie_ID) references Movie (ID)
+            on update cascade on delete cascade
+);
+
+create table TV_Series_genre
+(
+    TV_Series_ID int          not null,
+    Genre_name   varchar(100) not null,
+    primary key (TV_Series_ID, Genre_name),
+    constraint TV_Series_genre_TV_Series_ID_fk
+        foreign key (TV_Series_ID) references TV_Series (ID)
+);
