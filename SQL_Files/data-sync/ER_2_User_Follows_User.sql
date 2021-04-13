@@ -18,7 +18,6 @@ INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'armed_army
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'armed_army','mastermetal10071');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'armed_army','jodyraggo');
 
-
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('arctikice', 'armittj');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('tamo49', 'armittj');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('hitchcockthelegend', 'armittj');
@@ -39,8 +38,6 @@ INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'armittj','
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'armittj','dfarry');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'armittj','efmukl');
 
-
-
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('ardith72', 'ARMY31W');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('tamo49', 'ARMY31W');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('Rob Paul', 'ARMY31W');
@@ -48,7 +45,6 @@ INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('Rob Paul', 
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'ARMY31W','ardith72');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('ARMY31W','tamo49');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'ARMY31W','Rob Paul');
-
 
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('area01', 'Arnold-10');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('zarabeth', 'Arnold-10');
@@ -59,7 +55,6 @@ INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'Arnold-10'
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'Arnold-10','zarabeth');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'Arnold-10','samuel_walker2002');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'Arnold-10','Eumenides_0');
-
 
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('areatw', 'Arnror_II');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('thebigeasy555', 'Arnror_II');
@@ -76,7 +71,6 @@ INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('BeEarnest',
 
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'arorashadow_2003','ares-838-839636');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('arorashadow_2003','BeEarnest');
-
 
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('arian-hakim', 'arpitrathore');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('aggie1138', 'arpitrathore');
@@ -106,11 +100,10 @@ INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'arpitratho
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ( 'arpitrathore','agrawalmannu');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('arpitrathore','sashank_kini-1');
 
-
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('arinaavramescu', 'MR_Heraclius');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('ivo-cobra8', 'MR_Heraclius');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('brucemiddlemissphotography', 'MR_Heraclius');
-INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES (johnha-1', 'MR_Heraclius');
+INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('johnha-1', 'MR_Heraclius');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('cam21-660-801606', 'MR_Heraclius');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('martinray-83572', 'MR_Heraclius');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('brian_c_hayes', 'MR_Heraclius');
@@ -126,9 +119,6 @@ INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('arinaavrame
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('whaatsoever', 'MR_Heraclius');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('galcherki', 'MR_Heraclius');
 
-
-
-
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('MR_Heraclius', 'arshad115');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('MR_Heraclius', 'art-75089');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('MR_Heraclius', 'artboyle');
@@ -136,7 +126,7 @@ INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('MR_Heracliu
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('MR_Heraclius', 'ArthurGD3');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('MR_Heraclius', 'arthurjaouhari');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('MR_Heraclius', 'arthursranch');
-INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('gmiles-835-814774, 'Artimidor');
+INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('gmiles-835-814774', 'Artimidor');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('darkman-1', 'arvie88');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('darkman-1', 'aryane-34824');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('darkman-1', 'aryanhot-13790');
@@ -157,7 +147,6 @@ INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('vpck100-15-
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('vpck100-15-672657', 'bat-5');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('vpck100-15-672657', 'baudrai');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('vpck100-15-672657', 'baumer');
-
 
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('arinaavramescu', 'arshad115');
 INSERT INTO `ER-2`.User_Follows_User (UserName1, UserName2) VALUES ('arisare', 'art-75089');
