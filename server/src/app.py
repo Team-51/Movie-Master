@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request
+from flask import Flask, send_from_directory, request, jsonify
 from mysql.connector import connect
 from dotenv import load_dotenv
 import json, os
@@ -23,12 +23,26 @@ def base():
 def home(path):
     return send_from_directory('../../client/public', path)
 
-@app.route("/sql/<string:query>/")
+@app.route("/sql/<string:query>")
 def query(query):
     # very unsafe sql injection attack
-    cu.execute(f'{query};')
+    cu = db.cursor()
+    res = cu.execute(f'{query};', multi=True)
+
+    data = {}
+    indexOuter = 0
+    for r in res:
+        data[indexOuter] = {}
+        index = 0
+        for row in r:
+            data[indexOuter][index] = row
+            index += 1
+
+        indexOuter += 1
+
     db.commit()
-    return True
+
+    return jsonify(data)
 
 if __name__ == '__main__':
     
@@ -39,6 +53,7 @@ if __name__ == '__main__':
         print(f'Cannot connect to Mysql')
 
     cu.execute(f'USE `{db_name}`;')
+    
     db.commit()
 
     app.run(debug=True)
