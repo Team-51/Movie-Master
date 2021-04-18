@@ -76,53 +76,57 @@ def populate(cu, db):
         outName = outName.replace('ER_2_', 'Movie_Master_')
         dic[outName] = 1
 
+        with open(di + outName, 'r') as sql_file:
 
-    while len(dic) > 0:
+            if 'Person' not in outName and 'Episode' not in outName:
+                queries = sql_file.read().splitlines()
+            else:
+                queries = sql_file.read().split(';')
+
+        dic3 = {}
+        for query in queries:
+            dic3[query] = 1
+
+        dic[outName] = dic3
+
+
+    count = 200
+    while count > 0:
 
         dic2 = copy.deepcopy(dic)
 
         for f in dic.keys():
-            
-            with open(di + f, 'r') as sql_file:
 
-                if 'Person' not in f:
-                    queries = sql_file.read().splitlines()
-                else: 
-                    queries = sql_file.read().split(';')
+            for query in dic[f]:
 
-                success = True
+                q = f'{query.strip()};'
+                if len(q) <= 1:
+                    continue
 
-                for query in queries:
+                if len(query) < 5:
+                    continue
 
-                    q = f'{query.strip()};'
-                    if len(q) <= 1:
-                        continue
-
-                    if len(query) < 5:
-                        continue
-
-                    try:
-                        cu.execute(f'{query}')
-
-                    except: 
-                        if 'Review' in f or 'List' in f or 'Rates' in f or 'Award' in f or 'Critic':
-                            continue
-                        print(query, f)
-                        traceback.print_exc()
-                        success = False
-                        break
-
-                if success:
+                try:
+                    cu.execute(f'{query}')
                     db.commit()
-                    del dic2[f]
-                    print(f"Done with {f}")
-                else:
-                    db.rollback()
+                    del dic2[f][query]
+                except: 
+                    continue
 
-                cu.close()
-                cu = db.cursor()
+            if len(dic2[f]) == 0:
+                print("Done with " + f)
+                del dic2[f]
+
+            cu.close()
+            cu = db.cursor()
 
         dic = copy.deepcopy(dic2)
+        count -= 1
+
+        if count % 10 == 0:
+            print(count)
+            for f in dic.keys():
+                print(f, len(dic[f]))
 
 if __name__ == '__main__':
 
