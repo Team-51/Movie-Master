@@ -2,81 +2,100 @@ from flask import Flask, send_from_directory, request, jsonify, session, redirec
 from mysql.connector import connect
 from dotenv import load_dotenv
 import json, os
-from flask_sqlalchemy import SQLAlchemy
+import traceback
+import copy
 
 load_dotenv()
 
-conf = {
-    'host': os.getenv('MYSQL_HOST') or 'localhost',
-    'user': os.getenv('MYSQL_USER') or '',
-    'password': os.getenv('MYSQL_PASSWORD') or 'password'
+tempConf = {
+    'host': 'localhost',
+    'user': '',
+    'password': '', 
 }
 db_name = "movie-master"
+userdb = None
 
 # Create app Instance
 app = Flask(__name__, static_url_path='/../../client/public')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
-db = SQLAlchemy(app)
-
-class User(db.Model):
-    """ Create user table"""
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True)
-    password = db.Column(db.String(80))
-
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
-
-
-@app.route('/login', methods = ['POST'])
-def home():
-
-    name = request.form['username']
-    passw = request.form['password']
-
-    # TODO check if already logged in
-
-    try:
-        data = User.query.filter_by(username=name, password=passw).first()
-        if data is not None:
-            session['logged_in'] = True
-            # TODO find url to redirect
-            return 'Login Success'
-        else:
-            return 'Login Failed'
-    except:
-        return 'Failed'
-
-@app.route('/register', methods=['POST'])
-def register():
-    try:
-        new_user = User(
-            username=request.form['username'],
-            password=request.form['password'])
-        db.session.add(new_user)
-        db.session.commit()
-        return 'USER ADDED'
-    except:
-        return 'FAILED'
-
-@app.route('/logout')
-def logout():
-    session['logged_in'] = False
-    return "Success"
 
 @app.route("/")
 def base():
     return send_from_directory('../../client/public', 'index.html')
 
-#app.route("/<path:path>")
-#def home(path):
-#    return send_from_directory('../../client/public', path)
+@app.route("/<path:path>")
+def home(path):
+    return send_from_directory('../../client/public', path)
+
+@app.route('/login', methods = ['POST'])
+def login():
+    # Login the user into mysql database
+
+    name = request.form['username']
+    passw = request.form['password']
+
+    if session['logged_in'] == True:
+        return 'ALREADY LOGGED IN'
+
+    conf = copy.deepcopy(tempConf)
+    conf['user'] = name
+    conf['password'] = passw;
+
+    try:
+        userdb = connect(**conf)
+        session['logged_in'] = True
+        session['cred'] = conf
+        return 'SUCCESS'
+    except:
+        return 'FAILED'
+
+@app.route('/register', methods=['POST'])
+def register():
+
+    # Register a new user
+    # TODO : add type of users as an input for views in grants
+
+    cu = admindb.cursor()
+
+    username = request.form['username']
+    email = request.form['email']
+    password = request.form['password']
+
+    try:
+        cu.execute(f"""CREATE USER '{username}'@'localhost' IDENTIFIED BY '{password}';""")
+        cu.execute(f"""INSERT INTO `{db_name}`.User (UserName, Email) VALUES ('{username}', '{email}');""")
+        admindb.commit()
+        return 'SUCCESS'
+    except:
+        admindb.rollback()
+        return 'FAILED'
+
+@app.route('/logout')
+def logout():
+
+    session['logged_in'] = False
+    session['cred'] = None
+    return "Success"
+
+@app.route('/test')
+def test():
+    # Ignore
+    try:
+        userdb = connect(**session['cred'])
+        cu = userdb.cursor()
+        return "Success"
+    except:
+        return "Failed"
+
 
 @app.route("/sql/<string:query>")
 def query(query):
-    # very unsafe sql injection attack
+
+    if session['loggen_in'] == False:
+        return 'NOT LOGGED IN'
+
+    userdb = connect(**session['cred'])
     cu = sqldb.cursor()
+
     res = cu.execute(f'{query};', multi=True)
 
     data = {}
@@ -96,17 +115,21 @@ def query(query):
 
 if __name__ == '__main__':
     
+    # Admin conf
+    conf = copy.deepcopy(tempConf)
+    conf['user'] = os.getenv('MYSQL_USER')
+    conf['password'] = os.getenv('MYSQL_PASSWORD')
+
     try:
-        sqldb = connect(**conf)
-        cu = sqldb.cursor()
-    except Exception:
+        admindb = connect(**conf)
+        cu = admindb.cursor()
+    except:
         print(f'Cannot connect to Mysql')
 
     cu.execute(f'USE `{db_name}`;')
     
-    sqldb.commit()
+    admindb.commit()
 
-    db.create_all()
     app.secret_key = "ice good cream"
 
     app.run(debug=True)
