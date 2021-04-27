@@ -71,10 +71,76 @@ def register():
 
 @app.route('/logout')
 def logout():
-
     session['logged_in'] = False
     session['cred'] = None
     return "Success"
+
+@app.route('/username')
+def username():
+    # Get Authenticated user's username
+    if session['logged_in'] == False:
+        return 'GUEST'
+    else:
+        return session['cred']['user']
+
+@app.route('/userInfo')
+def userInfo():
+
+    # Get Details of user by username
+    if session['logged_in'] == False:
+        return 'NOT LOGGED IN'
+
+    res = {}
+
+    try:
+        userdb = connect(**session['cred'])        
+        #userdb = admindb               # For Testing
+        cu = userdb.cursor()
+        cu.execute(f'USE `{db_name}`;')
+        userdb.commit()
+    except:
+        traceback.print_exc()
+        return "SQL connection failed"
+
+    username = session['cred']['user']
+    #username = 'ZeyuZhang_1229'        # For Testing
+
+    # Reviews
+    query = f"""SELECT * FROM User_Reviews_Movie WHERE UserName = '{username}' ORDER BY Date"""
+    result = cu.execute(f'{query};', multi=True)
+
+    res['Reviews'] = []
+    for r in result:
+        cnt = 0
+        for row in r:
+            cnt+=1
+            if len(res['Reviews']) < 2:
+                res['Reviews'].append(row)
+        res['ReviewCnt'] = cnt
+
+    # username = '1Shane_ab1'         # For Testing
+    
+    # List of Watchlists
+    query = f"""SELECT * FROM Movie_List WHERE UserName = '{username}';"""
+    result = cu.execute(f'{query};', multi=True)
+
+    res['Watchlists'] = []
+    for r in result:
+        for row in r:
+            if row[1] not in res['Watchlists']:
+                res['Watchlists'].append(row[1])
+
+    # username = 'MR_Heraclius'         # For Testing
+
+    # Number of Followers
+    query = f"""SELECT COUNT(*) FROM User_Follows_User WHERE UserName2 = '{username}';"""
+    result = cu.execute(f'{query};', multi=True)
+
+    for r in result:
+        for row in r:
+            res['Followers'] = row[0]
+
+    return jsonify(res)
 
 @app.route('/test')
 def test():
