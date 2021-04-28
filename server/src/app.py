@@ -33,7 +33,7 @@ def login():
     name = request.form['username']
     passw = request.form['password']
 
-    if session['logged_in'] == True:
+    if 'logged_in' in session and session['logged_in'] == True:
         return 'ALREADY LOGGED IN'
 
     conf = copy.deepcopy(tempConf)
@@ -78,7 +78,8 @@ def logout():
 @app.route('/username')
 def username():
     # Get Authenticated user's username
-    if session['logged_in'] == False:
+
+    if 'logged_in' not in session or session['logged_in'] == False:
         return 'GUEST'
     else:
         return session['cred']['user']
@@ -87,7 +88,7 @@ def username():
 def userInfo():
 
     # Get Details of user by username
-    if session['logged_in'] == False:
+    if 'logged_in' not in session or session['logged_in'] == False:
         return 'NOT LOGGED IN'
 
     res = {}
@@ -141,6 +142,41 @@ def userInfo():
             res['Followers'] = row[0]
 
     return jsonify(res)
+
+@app.route('/follow', methods = ['POST'])
+def follow():
+    
+    if 'logged_in' not in session or session['logged_in'] == False:
+        return 'NOT LOGGED IN'
+
+    try:
+        #userdb = connect(**session['cred'])        
+        userdb = admindb               # For Testing
+        cu = userdb.cursor()
+        cu.execute(f'USE `{db_name}`;')
+        userdb.commit()
+    except:
+        traceback.print_exc()
+        return "SQL connection failed"
+
+
+    follower = session['cred']['user']
+    followee = request.form['user']
+
+    # TODO : delete below two lines
+    follower = 'Arnold-10'
+    followee = 'waynegavin1'
+
+    
+    query = f"""INSERT INTO `movie-master`.User_Follows_User (UserName1, UserName2) VALUES ('{follower}', '{followee}')"""
+
+    try:
+        result = cu.execute(f'{query};');
+        userdb.commit()
+        return 'SUCCESS'
+    except:
+        return 'FAILED'
+
 
 @app.route('/test')
 def test():
@@ -196,6 +232,5 @@ if __name__ == '__main__':
     
     admindb.commit()
 
-    app.secret_key = "ice good cream"
-
-    app.run(debug=True)
+    app.secret_key = "ice good cream" 
+    app.run(debug=True) 
