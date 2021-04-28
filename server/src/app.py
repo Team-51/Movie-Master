@@ -177,6 +177,68 @@ def follow():
     except:
         return 'FAILED'
 
+@app.route('/search')
+def search():
+
+    # Genre and Rating 
+    where = f"""WHERE Movie.ID = User_Rates_Movie.Movie_ID"""
+    tables = """FROM Movie, User_Rates_Movie"""
+    order = """ORDER BY AVG(User_Rates_Movie.Rating)"""
+    group = """GROUP BY Movie.ID"""
+    select = """SELECT Movie.*, AVG(User_Rates_Movie.Rating)"""
+    having = """HAVING True"""
+
+    if 'genre' in request.args:
+        genre = request.args['genre']
+        tables += """, Movie_Genre"""
+        where += f"""\n\tAND Movie.ID = Movie_Genre.Movie_ID AND Movie_Genre.Genre_Name = '{genre}'"""
+
+    if 'rating' in request.args:
+        rating = request.args['rating']
+        having += f"""\n\tAND AVG(User_Rates_Movie.Rating) >= {rating}"""
+
+    if 'minDuration' in request.args:
+        minDuration = request.args['duration']
+        where += f"""\n\tAND Duration > {minDuration}"""
+
+    if 'lang' in request.args:
+        lang = request.args['lang']
+        where += f"""\n\tAND Lang = '{lang}'"""
+
+    if 'ReleasedAfter' in request.args:
+        ReleasedAfter = request.args['ReleasedAfter']
+        where += f"""\n\tAND Release_Year >= {ReleasedAfter}"""
+
+    query = select + '\n' + tables + '\n' + where + '\n' + group + '\n' + having + '\n' + order + ';'
+
+    try:
+        #userdb = connect(**session['cred'])        
+        userdb = admindb               # For Testing
+        cu = userdb.cursor()
+        cu.execute(f'USE `{db_name}`;')
+        userdb.commit()
+        cu.close()
+    except:
+        traceback.print_exc()
+        return "SQL connection failed"
+    
+    try:
+        cu = userdb.cursor()
+        result = cu.execute(f'{query}', multi=True)
+    except:
+        traceback.print_exc()
+        return f"ERROR, Query Generated : {query}"
+
+    res = {}
+
+    for r in result:
+        for row in r:
+            res[row[0]] = row[1:]
+
+    cu.close()
+
+    return jsonify(res)
+    
 
 @app.route('/test')
 def test():
